@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="da">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Vaskestatistik</title>
+  <link rel="stylesheet" href="static/style.css">
+</head>
+<body>
+  <header>
+    <div class="brand">
+      <h1>Vaskestatistik</h1>
+      <span id="status" class="status" title="">●</span>
+    </div>
+    <nav class="seg" id="nav">
+      <a href="#/" data-view="dashboard">Oversigt</a>
+      <a href="#/cycles" data-view="cycles">Ture</a>
+      <a href="#/setup" data-view="setup">Opsætning</a>
+    </nav>
+    <div class="controls">
+      <div class="seg" id="range">
+        <button data-range="7">7 dage</button>
+        <button data-range="30" class="on">30 dage</button>
+        <button data-range="90">90 dage</button>
+        <button data-range="year">I år</button>
+        <button data-range="all">Alt</button>
+      </div>
+      <select id="machine"><option value="">Alle maskiner</option></select>
+      <a id="export" class="btn" href="api/export.csv" download title="Hent turene i perioden som CSV">↓ CSV</a>
+    </div>
+  </header>
+
+  <main>
+   <section id="live" class="live"></section>
+
+   <div id="view-dashboard" class="view">
+    <section class="kpis" id="kpis"></section>
+
+    <div class="grid two">
+      <section class="card">
+        <div class="card-head">
+          <h2>Ture over tid</h2>
+          <div class="head-tools">
+            <div class="seg small" id="metric">
+              <button data-metric="n" class="on">Antal</button>
+              <button data-metric="kwh">kWh</button>
+              <button data-metric="cost">kr</button>
+            </div>
+            <div class="seg small" id="bucket">
+              <button data-bucket="day">Dag</button>
+              <button data-bucket="week">Uge</button>
+              <button data-bucket="month">Måned</button>
+            </div>
+          </div>
+        </div>
+        <div id="timeline" class="chart"></div>
+      </section>
+      <section class="card">
+        <div class="card-head"><h2>Indsigt</h2></div>
+        <ul id="insights" class="insights"></ul>
+      </section>
+    </div>
+
+    <div class="grid two">
+      <section class="card">
+        <div class="card-head"><h2>Hvornår vaskes der?</h2><span class="hint">starttidspunkter</span></div>
+        <div id="heatmap" class="chart"></div>
+      </section>
+      <section class="card">
+        <div class="card-head"><h2>Hvor længe kører de?</h2><span class="hint">minutter pr. tur</span></div>
+        <div id="durations" class="chart"></div>
+      </section>
+    </div>
+
+    <section class="card" id="machines-card">
+      <div class="card-head"><h2>Pr. maskine</h2></div>
+      <table class="table" id="machines"></table>
+    </section>
+
+    <section class="card">
+      <div class="card-head"><h2>Seneste ture</h2><a href="#/cycles" class="hint">Se alle →</a></div>
+      <table class="table recent"><tbody id="recent"></tbody></table>
+    </section>
+   </div>
+
+   <div id="view-cycles" class="view" hidden>
+    <section class="card">
+      <div class="card-head"><h2>Alle ture i perioden</h2><span class="hint" id="cycles-hint"></span></div>
+      <table class="table recent"><tbody id="all-cycles"></tbody></table>
+    </section>
+   </div>
+
+   <div id="view-cycle" class="view" hidden>
+    <a href="#/" class="back" onclick="if (history.length > 1) { history.back(); return false; }">← Tilbage</a>
+    <section class="hero" id="cycle-hero"></section>
+    <section class="kpis" id="cycle-kpis"></section>
+    <section class="card">
+      <div class="card-head"><h2>Effekt minut for minut</h2><span class="hint">watt</span></div>
+      <div id="cycle-chart" class="chart tall"></div>
+    </section>
+    <div class="grid two">
+      <section class="card"><div class="card-head"><h2>Lignende ture</h2><span class="hint">samme forløb</span></div><ol id="cycle-similar" class="top"></ol></section>
+      <section class="card"><div class="card-head"><h2 id="cycle-pair-title">Vask og tørring</h2></div><div id="cycle-pair"></div></section>
+    </div>
+   </div>
+
+   <div id="view-setup" class="view" hidden>
+    <section class="card">
+      <div class="card-head"><h2>Maskiner</h2><span class="hint">ændres under add-on'ets Konfiguration</span></div>
+      <table class="table" id="setup-machines"></table>
+    </section>
+    <div class="grid two">
+      <section class="card">
+        <div class="card-head"><h2>Home Assistant</h2><span class="hint" id="ha-hint"></span></div>
+        <div id="ha-status" class="muted"></div>
+        <ul id="ha-sensors" class="entity-list"></ul>
+      </section>
+      <section class="card">
+        <div class="card-head"><h2>Historik</h2></div>
+        <div id="import-status" class="muted"></div>
+        <p><button id="import-btn" class="btn">Læs historikken igen</button></p>
+      </section>
+    </div>
+   </div>
+  </main>
+
+  <script src="static/echarts.min.js"></script>
+  <script src="static/app.js"></script>
+</body>
+</html>

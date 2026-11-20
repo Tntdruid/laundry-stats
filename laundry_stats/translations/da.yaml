@@ -1,0 +1,26 @@
+configuration:
+  machines:
+    name: Maskiner
+    description: >-
+      Én post pr. maskine. type er washer (vaskemaskine) eller dryer (tørretumbler), power_entity er stikkets
+      effektsensor i watt. En tur starter, når effekten har været over start_watt i start_seconds sekunder, og er
+      færdig, når den har været under stop_watt i stop_minutes minutter. Ture under min_minutes tælles ikke.
+      skip_entity (valgfri) holder ture ude af statistikken, mens den er tændt eller aktiv, fx en timer til afkalkning.
+  price_entity:
+    name: Elpris-sensor
+    description: Sensor med elprisen i kr/kWh, fx fra Energi Data Service eller Nord Pool. Prisen for hver tur regnes ud minut for minut. Lad den stå tom for en fast pris.
+  price_per_kwh:
+    name: Fast elpris (kr/kWh)
+    description: Bruges, når der ikke er en elpris-sensor, eller den ikke kan læses.
+  poll_interval:
+    name: Opdateringsinterval
+    description: Sekunder mellem hvert tjek af stikkene.
+  import_days:
+    name: Historik ved første start
+    description: Så mange dage tilbage læses fra Home Assistants historik første gang. Recorderen gemmer som standard 10 dage.
+  ha_sensors:
+    name: Sensorer i Home Assistant
+    description: Opretter sensorer pr. maskine med status, forventet færdig-tid, ture i dag og denne måned, strøm og pris.
+  notify_services:
+    name: Notifikationstjenester
+    description: Får en besked, når en tur er færdig, fx notify.mobile_app_din_telefon. Én pr. linje. Lad den stå tom, hvis du har dine egne automationer (brug eventet laundry_stats_cycle_finished).

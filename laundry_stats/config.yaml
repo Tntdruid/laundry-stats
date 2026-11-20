@@ -1,0 +1,57 @@
+name: Laundry Stats
+version: "0.1.0"
+slug: laundry_stats
+description: Statistik for vaskemaskine og tørretumbler ud fra et smart-stik med effektmåling
+url: https://github.com/Tntdruid/laundry-stats
+arch:
+  - amd64
+  - aarch64
+init: false
+ingress: true
+panel_icon: mdi:washing-machine
+panel_title: Vaskestatistik
+homeassistant_api: true
+map:
+  - addon_config:rw
+options:
+  machines:
+    - name: Vaskemaskine
+      type: washer
+      power_entity: sensor.vaskemaskine_power
+      start_watt: 50
+      start_seconds: 0
+      stop_watt: 45
+      stop_minutes: 4
+      min_minutes: 15
+    - name: Tørretumbler
+      type: dryer
+      power_entity: sensor.torretumbler_power
+      start_watt: 100
+      start_seconds: 60
+      stop_watt: 35
+      stop_minutes: 2
+      min_minutes: 15
+  price_entity: ""
+  price_per_kwh: 2.5
+  poll_interval: 30
+  import_days: 30
+  ha_sensors: true
+  notify_services: []
+schema:
+  machines:
+    - name: str
+      type: list(washer|dryer)
+      power_entity: str
+      start_watt: float(1,5000)
+      start_seconds: int(0,900)
+      stop_watt: float(0,5000)
+      stop_minutes: float(0,60)
+      min_minutes: int(0,600)
+      skip_entity: str?
+  price_entity: str?
+  price_per_kwh: float(0,100)
+  poll_interval: int(10,300)
+  import_days: int(1,365)
+  ha_sensors: bool
+  notify_services:
+    - str

@@ -1,0 +1,26 @@
+configuration:
+  machines:
+    name: Machines
+    description: >-
+      One entry per machine. type is washer or dryer, power_entity is the plug's power sensor in watts. A cycle
+      starts when the power has been above start_watt for start_seconds seconds, and ends when it has been below
+      stop_watt for stop_minutes minutes. Cycles shorter than min_minutes are not counted. skip_entity (optional)
+      keeps cycles out of the statistics while it is on or active, e.g. a timer for descaling.
+  price_entity:
+    name: Electricity price sensor
+    description: A sensor with the price per kWh, e.g. from Energi Data Service or Nord Pool. Each cycle's cost is worked out minute by minute. Leave empty for a fixed price.
+  price_per_kwh:
+    name: Fixed price per kWh
+    description: Used when there is no price sensor, or it can't be read.
+  poll_interval:
+    name: Update interval
+    description: Seconds between each check of the plugs.
+  import_days:
+    name: History on first start
+    description: How many days back to read Home Assistant's history the first time. The recorder keeps 10 days by default.
+  ha_sensors:
+    name: Sensors in Home Assistant
+    description: Creates sensors per machine with status, expected finish time, cycles today and this month, energy and cost.
+  notify_services:
+    name: Notification services
+    description: Get a message when a cycle is done, e.g. notify.mobile_app_your_phone. One per line. Leave empty if you have your own automations (use the laundry_stats_cycle_finished event).
